@@ -67,11 +67,13 @@ namespace BlazorWasm.Client.Pages
             messagesRenderFragment = builder =>
             {
                 int iSequence = 0;
+                string sSvgHeight = svgHeight;
                 foreach (MessageModel message in _messages)
                 {
                     if (message != null)
                     {
                         int iX = (message.SenderGuid != _senderGuid ? 0 : iOtherSenderOffset);
+                        string sBlockColor = (message.SenderGuid != _senderGuid ? "#DCDCDC" : "#D9FDD3");
 
                         #region Date
 
@@ -117,7 +119,7 @@ namespace BlazorWasm.Client.Pages
 
                         //sbMessagesMarkup.AppendLine($"<rect fill=#D9FDD3 x={iX.ToString()} y={iY.ToString()} width='{iWidth_px.ToString()}px' height='{iHeight_px.ToString()}px' filter='url(#shadow)' />");
                         builder.OpenElement(++iSequence, "rect");
-                        builder.AddAttribute(++iSequence, "fill", "#D9FDD3");
+                        builder.AddAttribute(++iSequence, "fill", sBlockColor);
                         builder.AddAttribute(++iSequence, "x", iX.ToString());
                         builder.AddAttribute(++iSequence, "y", iY.ToString());
                         builder.AddAttribute(++iSequence, "width", $"{iWidth_px.ToString()}px");
@@ -148,8 +150,8 @@ namespace BlazorWasm.Client.Pages
                         builder.OpenElement(++iSequence, "foreignObject");
                         builder.AddAttribute(++iSequence, "x", (iX + 5).ToString());
                         builder.AddAttribute(++iSequence, "y", (iY + 25).ToString());
-                        builder.AddAttribute(++iSequence, "width", $"{(iWidth_px - 10).ToString()}px");
-                        builder.AddAttribute(++iSequence, "height", $"{(iHeight_px - 30).ToString()}px");
+                        builder.AddAttribute(++iSequence, "width", $"{(iWidth_px > 30 ? iWidth_px - 30 : 30).ToString()}px");
+                        builder.AddAttribute(++iSequence, "height", $"{(25).ToString()}px");
                         builder.OpenElement(++iSequence, "label");
                         builder.AddContent(++iSequence, message.Text);
                         builder.CloseElement(); //label
@@ -159,7 +161,7 @@ namespace BlazorWasm.Client.Pages
                         builder.OpenElement(++iSequence, "foreignObject");
                         builder.AddAttribute(++iSequence, "x", (iX + 5).ToString());
                         builder.AddAttribute(++iSequence, "y", (iY + iHeight_px - 25).ToString());
-                        builder.AddAttribute(++iSequence, "width", $"{(iWidth_px > 80 ? iWidth_px-80 : 100).ToString()}px");
+                        builder.AddAttribute(++iSequence, "width", $"{(iWidth_px > 150 ? iWidth_px-150 : 100).ToString()}px");
                         builder.AddAttribute(++iSequence, "height", $"25px");
                         builder.OpenElement(++iSequence, "label");
                         builder.AddAttribute(++iSequence, "class", "note-time");
@@ -174,7 +176,7 @@ namespace BlazorWasm.Client.Pages
                         builder.OpenElement(++iSequence, "foreignObject");
                         builder.AddAttribute(++iSequence, "x", (iX + iWidth_px - 30).ToString());
                         builder.AddAttribute(++iSequence, "y", (iY + iHeight_px - 25).ToString());
-                        builder.AddAttribute(++iSequence, "width", $"80px");
+                        builder.AddAttribute(++iSequence, "width", $"30px");
                         builder.AddAttribute(++iSequence, "height", $"25px");
                         builder.OpenElement(++iSequence, "label");
                         builder.AddAttribute(++iSequence, "class", "note-time");
@@ -186,9 +188,11 @@ namespace BlazorWasm.Client.Pages
                         #endregion Message
 
                         iY += (iHeight_px + 10);
-                        svgHeight = $"{(iY + 50).ToString()}px";
+                        sSvgHeight = $"{(iY + 50).ToString()}px";
                     }
                 }
+
+                svgHeight = sSvgHeight;
             };
 
             //StringBuilder sbMessagesMarkup = new StringBuilder();
