@@ -1,0 +1,15 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<CurrentSession />
+
+@* <d1>
+    //https://docs.duendesoftware.com/identityserver/v7/quickstarts/2_interactive/
+    @foreach (var prop in (await HttpContext.AuthenticateAsync()).Properties!.Items)
+    {
+        <dt>@prop.Key</dt>
+        <dd>@prop.Value</dd>
+    }
+</d1> *@
+

@@ -1,0 +1,67 @@
+﻿@page "/echoservice"
+@using BlazorWasm.Shared.Models
+
+@inject AuthenticationStateProvider AuthenticationStateProvider;
+
+<PageTitle>Echo Service</PageTitle>
+
+<div class="col">
+    <div class="row">
+        <div class="col-sm-10">
+            <InputText class="form-control" id="txtMessage" @bind-Value="MessageToAdd" placeholder="Message" />
+        </div>
+        <div class="col-sm-2">
+            <button @onclick="ButtonClick_Send">Send</button>
+            <button @onclick="ButtonClick_Clear">Clear</button>
+            @* <button @onclick="() => _hubProxy.CreateMessage(10, txtMessage.text)">Create Sticky Note ➕</button> *@
+        </div>
+    </div>
+</div>
+
+<div class="col">
+    <div class="row">
+        <div class="col-sm-12">
+            <svg width="100%" height=@svgHeight > @* @onclick="Click" *@
+                <defs>
+                    <filter id="shadow" x="0" y="0" width="200%" height=@svgHeight>
+                        <feOffset result="offOut" in="SourceAlpha" dx="5" dy="5" />
+                        <feGaussianBlur result="blurOut" in="offOut" stdDeviation="2.5" />
+                        <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+                    </filter>
+                </defs>
+                
+                @* @((MarkupString)messagesMarkup) *@
+                @messagesRenderFragment
+                @* @foreach (MessageModel message in _messages)
+                { *@
+                    @* <rect fill=#D9FDD3 x=0 y=10 stroke="#DDDD80" stroke-width="1" width="200px" height="25px" filter="url(#shadow)" /> *@
+                    @* <foreignObject x="@note.X" y="@((note.Y+30).AsString())" width="200px" height="170px">
+                        <textarea @bind=note.Text
+                                  @bind:event="oninput"
+                                  @bind:after="() => hubProxy.UpdateNoteText(note.Id, note.Text)"
+                                  disabled="@(!note.CanLock(connection.ConnectionId))"
+                                  class="note-textarea"></textarea>
+                    </foreignObject>
+                    <text>
+                        <text @onclick="() => hubProxy.DeleteNote(note.Id)"
+                              x="@note.X.AsString()"
+                              y="@note.Y.AsString()"
+                              alignment-baseline="before-edge"
+                              class="note-markers"
+                              style="pointer-events:@(note.CanLock(connection.ConnectionId) ? "inherit" : "none")">
+                            ❌
+                        </text>
+                        <text @onpointerdown="e => Down(note, e)"
+                              x="@((note.X+180).AsString())"
+                              y="@note.Y.AsString()"
+                              alignment-baseline="before-edge"
+                              class="note-markers"
+                              style="pointer-events:@(note.CanLock(connection.ConnectionId) ? "inherit" : "none")">
+                            @(note == editNote || !note.CanLock(connection.ConnectionId) ? "📌" : "📍")
+                        </text>
+                    </text> *@
+                 @* } *@
+             </svg>
+        </div>
+    </div>
+</div>
