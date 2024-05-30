@@ -188,7 +188,7 @@ namespace BlazorWasm.Client.Pages
                         #endregion Message
 
                         iY += (iHeight_px + 10);
-                        sSvgHeight = $"{(iY + 50).ToString()}px";
+                        sSvgHeight = $"{(iY + 100).ToString()}px";
                     }
                 }
 
